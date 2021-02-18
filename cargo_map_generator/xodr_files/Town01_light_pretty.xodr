@@ -1,0 +1,973 @@
+<?xml version="1.0" ?>
+<Town01>
+	<road id="0" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="11" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="26" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="1" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="26" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="54" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="2" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="54" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="110" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="3" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="110" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="13" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="4" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="306" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="278" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="5" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="20" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="87" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="6" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="87" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="143" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="7" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="143" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="14" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="8" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="14" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="11" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="9" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="171" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="332" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="10" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="332" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="222" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="11" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="0" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="8" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="12" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="255" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="194" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="13" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="15" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="3" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="14" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.29999999999997495, 4.000000000000001]"/>
+		<predecessor elementId="8" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="7" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="15" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="13" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="20" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="16" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="26" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="222" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="17" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="222" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="278" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="18" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="278" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="194" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="19" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="194" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="143" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="20" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="5" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+		<successor elementId="15" elementType="road" lane_id_from="['3', '2', '1', '-1', '-2', '-3']" lane_id_to="['-3', '-2', '-1', '1', '2', '3']"/>
+	</road>
+	<road id="21" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="110" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="171" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="22" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="171" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="306" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="23" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="306" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="255" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="24" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="255" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="87" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="25" junction="-1">
+		<lane ids="['3', '2', '1', '-1', '-2', '-3']" widths="[4.000000000000001, 0.2999999999999998, 4.0, 4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="54" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+		<successor elementId="332" elementType="junction" lane_id_from="[]" lane_id_to="[]"/>
+	</road>
+	<road id="27" junction="26">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="16" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="1" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="28" junction="26">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="16" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="33" junction="26">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="16" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="40" junction="26">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="0" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="1" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="41" junction="26">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="0" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="1" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="46" junction="26">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="0" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="16" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="48" junction="26">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="16" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="0" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="52" junction="26">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="0" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="16" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="61" junction="54">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="2" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="62" junction="54">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="2" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="67" junction="54">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="25" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="70" junction="54">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="25" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+	</road>
+	<road id="75" junction="54">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="1" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="25" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="77" junction="54">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="25" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="83" junction="54">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="25" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="2" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="85" junction="54">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="25" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="93" junction="87">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="5" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="6" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="94" junction="87">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="5" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="6" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="98" junction="87">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="5" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="24" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['-3', '-2']"/>
+	</road>
+	<road id="102" junction="87">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="5" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="24" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="103" junction="87">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="24" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="5" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="104" junction="87">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="6" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="24" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="108" junction="87">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="24" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="6" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="109" junction="87">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="24" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="6" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="117" junction="110">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="3" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="118" junction="110">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="3" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="123" junction="110">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="21" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+	</road>
+	<road id="128" junction="110">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="21" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="131" junction="110">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="2" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="21" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="133" junction="110">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="3" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="21" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="139" junction="110">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="21" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="3" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="141" junction="110">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="3" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="21" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="144" junction="143">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="19" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="7" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="145" junction="143">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="7" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="150" junction="143">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="19" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="7" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="157" junction="143">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="6" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="7" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="158" junction="143">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="6" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="7" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="163" junction="143">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="6" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="165" junction="143">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="19" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+		<successor elementId="6" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="169" junction="143">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="19" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="6" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="178" junction="171">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="21" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="22" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="179" junction="171">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="21" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="22" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="183" junction="171">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="9" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="22" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="184" junction="171">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="22" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="185" junction="171">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="22" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="188" junction="171">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="21" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="189" junction="171">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="21" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+	</road>
+	<road id="193" junction="171">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="21" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="195" junction="194">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="197" junction="194">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="201" junction="194">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="203" junction="194">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['-3', '-2']"/>
+	</road>
+	<road id="208" junction="194">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="18" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="12" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="209" junction="194">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="218" junction="194">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="18" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="219" junction="194">
+		<lane ids="['3', '2', '1']" widths="[4.000000000000001, 0.2999999999999998, 4.0]"/>
+		<predecessor elementId="18" elementType="road" lane_id_from="['3', '2', '1']" lane_id_to="['3', '2', '1']"/>
+		<successor elementId="19" elementType="road" lane_id_from="['3', '2', '1']" lane_id_to="['3', '2', '1']"/>
+	</road>
+	<road id="223" junction="222">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="17" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['-3', '-2']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['-3', '-2']"/>
+	</road>
+	<road id="229" junction="222">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="10" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="17" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="232" junction="222">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="10" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="17" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="243" junction="222">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="16" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="17" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="244" junction="222">
+		<lane ids="['3', '2', '1']" widths="[4.000000000000001, 0.2999999999999998, 4.0]"/>
+		<predecessor elementId="16" elementType="road" lane_id_from="['3', '2', '1']" lane_id_to="['3', '2', '1']"/>
+		<successor elementId="17" elementType="road" lane_id_from="['3', '2', '1']" lane_id_to="['3', '2', '1']"/>
+	</road>
+	<road id="247" junction="222">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="10" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="16" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="248" junction="222">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="10" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="16" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['-3', '-2']"/>
+	</road>
+	<road id="253" junction="222">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="16" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="256" junction="255">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="24" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="257" junction="255">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="24" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="12" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="258" junction="255">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="24" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="12" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="271" junction="255">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="23" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="24" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="272" junction="255">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="23" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="24" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="273" junction="255">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="23" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="12" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="274" junction="255">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="12" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="23" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="277" junction="255">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="23" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="12" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="279" junction="278">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="17" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="4" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="280" junction="278">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="17" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+		<successor elementId="4" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="284" junction="278">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="17" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="295" junction="278">
+		<lane ids="['3', '2', '1']" widths="[4.000000000000001, 0.2999999999999998, 4.0]"/>
+		<predecessor elementId="17" elementType="road" lane_id_from="['3', '2', '1']" lane_id_to="['3', '2', '1']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['3', '2', '1']" lane_id_to="['3', '2', '1']"/>
+	</road>
+	<road id="296" junction="278">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="17" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="297" junction="278">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+	</road>
+	<road id="302" junction="278">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="304" junction="278">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="18" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="307" junction="306">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+		<successor elementId="22" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="312" junction="306">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="22" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="4" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="313" junction="306">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="22" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="4" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="314" junction="306">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['-3', '-2']"/>
+		<successor elementId="23" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+	</road>
+	<road id="318" junction="306">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="23" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="4" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="319" junction="306">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="4" elementType="road" lane_id_from="['1']" lane_id_to="['-1']"/>
+		<successor elementId="23" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="330" junction="306">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="22" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="23" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="331" junction="306">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="22" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="23" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<road id="333" junction="332">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="25" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="334" junction="332">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="9" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="25" elementType="road" lane_id_from="['-1']" lane_id_to="['1']"/>
+	</road>
+	<road id="335" junction="332">
+		<lane ids="['2', '1']" widths="[0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="25" elementType="road" lane_id_from="['2', '1']" lane_id_to="['-2', '-3']"/>
+		<successor elementId="9" elementType="road" lane_id_from="['2', '1']" lane_id_to="['2', '3']"/>
+	</road>
+	<road id="339" junction="332">
+		<lane ids="['-1']" widths="[4.0]"/>
+		<predecessor elementId="25" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['-1']" lane_id_to="['-1']"/>
+	</road>
+	<road id="341" junction="332">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="25" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="343" junction="332">
+		<lane ids="['-1', '-2']" widths="[4.000000000000001, 0.2999999999999998]"/>
+		<predecessor elementId="25" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['-1', '-2']" lane_id_to="['3', '2']"/>
+	</road>
+	<road id="354" junction="332">
+		<lane ids="['1']" widths="[4.0]"/>
+		<predecessor elementId="9" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['1']" lane_id_to="['1']"/>
+	</road>
+	<road id="355" junction="332">
+		<lane ids="['-1', '-2', '-3']" widths="[4.0, 0.2999999999999998, 4.000000000000001]"/>
+		<predecessor elementId="9" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+		<successor elementId="10" elementType="road" lane_id_from="['-1', '-2', '-3']" lane_id_to="['-1', '-2', '-3']"/>
+	</road>
+	<junction id="26">
+		<connection connectingRoad="27" contactPoint="end" id="0" incomingRoad="1">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="28" contactPoint="start" id="1" incomingRoad="1">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="33" contactPoint="end" id="2" incomingRoad="16">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="40" contactPoint="start" id="3" incomingRoad="0">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="41" contactPoint="end" id="4" incomingRoad="1">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="46" contactPoint="start" id="5" incomingRoad="0">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="48" contactPoint="start" id="6" incomingRoad="16">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="52" contactPoint="end" id="7" incomingRoad="16">
+			<laneLink from="1" to="1"/>
+		</connection>
+	</junction>
+	<junction id="54">
+		<connection connectingRoad="61" contactPoint="end" id="0" incomingRoad="2">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="62" contactPoint="start" id="1" incomingRoad="1">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="67" contactPoint="start" id="2" incomingRoad="1">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="70" contactPoint="start" id="3" incomingRoad="1">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="75" contactPoint="end" id="4" incomingRoad="25">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="77" contactPoint="start" id="5" incomingRoad="2">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="83" contactPoint="end" id="6" incomingRoad="2">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="85" contactPoint="end" id="7" incomingRoad="25">
+			<laneLink from="1" to="1"/>
+		</connection>
+	</junction>
+	<junction id="87">
+		<connection connectingRoad="93" contactPoint="end" id="0" incomingRoad="6">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="94" contactPoint="start" id="1" incomingRoad="5">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="98" contactPoint="start" id="2" incomingRoad="5">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="102" contactPoint="start" id="3" incomingRoad="5">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="103" contactPoint="start" id="4" incomingRoad="24">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="104" contactPoint="start" id="5" incomingRoad="6">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="108" contactPoint="end" id="6" incomingRoad="6">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="109" contactPoint="start" id="7" incomingRoad="24">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+	</junction>
+	<junction id="110">
+		<connection connectingRoad="117" contactPoint="end" id="0" incomingRoad="3">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="118" contactPoint="start" id="1" incomingRoad="2">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="123" contactPoint="start" id="2" incomingRoad="2">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="128" contactPoint="start" id="3" incomingRoad="2">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="131" contactPoint="end" id="4" incomingRoad="21">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="133" contactPoint="start" id="5" incomingRoad="3">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="139" contactPoint="end" id="6" incomingRoad="3">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="141" contactPoint="end" id="7" incomingRoad="21">
+			<laneLink from="1" to="1"/>
+		</connection>
+	</junction>
+	<junction id="143">
+		<connection connectingRoad="144" contactPoint="end" id="0" incomingRoad="7">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="145" contactPoint="start" id="1" incomingRoad="7">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="150" contactPoint="start" id="2" incomingRoad="19">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="157" contactPoint="start" id="3" incomingRoad="6">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="158" contactPoint="end" id="4" incomingRoad="7">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="163" contactPoint="start" id="5" incomingRoad="6">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="165" contactPoint="start" id="6" incomingRoad="19">
+			<laneLink from="-2" to="2"/>
+			<laneLink from="-3" to="1"/>
+		</connection>
+		<connection connectingRoad="169" contactPoint="start" id="7" incomingRoad="19">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+	</junction>
+	<junction id="171">
+		<connection connectingRoad="178" contactPoint="start" id="0" incomingRoad="21">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="179" contactPoint="end" id="1" incomingRoad="22">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="183" contactPoint="end" id="2" incomingRoad="22">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="184" contactPoint="end" id="3" incomingRoad="9">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="185" contactPoint="start" id="4" incomingRoad="22">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="188" contactPoint="start" id="5" incomingRoad="21">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="189" contactPoint="start" id="6" incomingRoad="21">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="193" contactPoint="end" id="7" incomingRoad="9">
+			<laneLink from="1" to="1"/>
+		</connection>
+	</junction>
+	<junction id="194">
+		<connection connectingRoad="195" contactPoint="end" id="0" incomingRoad="19">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="197" contactPoint="start" id="1" incomingRoad="12">
+			<laneLink from="-2" to="2"/>
+			<laneLink from="-3" to="1"/>
+		</connection>
+		<connection connectingRoad="201" contactPoint="start" id="2" incomingRoad="12">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="203" contactPoint="start" id="3" incomingRoad="12">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="208" contactPoint="start" id="4" incomingRoad="18">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="209" contactPoint="start" id="5" incomingRoad="12">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="218" contactPoint="start" id="6" incomingRoad="18">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="219" contactPoint="end" id="7" incomingRoad="19">
+			<laneLink from="3" to="3"/>
+			<laneLink from="2" to="2"/>
+			<laneLink from="1" to="1"/>
+		</connection>
+	</junction>
+	<junction id="222">
+		<connection connectingRoad="223" contactPoint="start" id="0" incomingRoad="17">
+			<laneLink from="-3" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+		</connection>
+		<connection connectingRoad="229" contactPoint="start" id="1" incomingRoad="10">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="232" contactPoint="end" id="2" incomingRoad="17">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="243" contactPoint="start" id="3" incomingRoad="16">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="244" contactPoint="end" id="4" incomingRoad="17">
+			<laneLink from="3" to="3"/>
+			<laneLink from="2" to="2"/>
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="247" contactPoint="start" id="5" incomingRoad="10">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="248" contactPoint="start" id="6" incomingRoad="10">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="253" contactPoint="start" id="7" incomingRoad="16">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+	</junction>
+	<junction id="255">
+		<connection connectingRoad="256" contactPoint="end" id="0" incomingRoad="24">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="257" contactPoint="end" id="1" incomingRoad="12">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="258" contactPoint="start" id="2" incomingRoad="24">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="271" contactPoint="start" id="3" incomingRoad="23">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+		<connection connectingRoad="272" contactPoint="end" id="4" incomingRoad="24">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="273" contactPoint="end" id="5" incomingRoad="12">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="274" contactPoint="start" id="6" incomingRoad="12">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="277" contactPoint="start" id="7" incomingRoad="23">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+	</junction>
+	<junction id="278">
+		<connection connectingRoad="279" contactPoint="start" id="0" incomingRoad="17">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="280" contactPoint="start" id="1" incomingRoad="17">
+			<laneLink from="-2" to="2"/>
+			<laneLink from="-3" to="1"/>
+		</connection>
+		<connection connectingRoad="284" contactPoint="start" id="2" incomingRoad="4">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="295" contactPoint="end" id="3" incomingRoad="18">
+			<laneLink from="3" to="3"/>
+			<laneLink from="2" to="2"/>
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="296" contactPoint="start" id="4" incomingRoad="17">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="297" contactPoint="start" id="5" incomingRoad="4">
+			<laneLink from="-2" to="2"/>
+			<laneLink from="-3" to="1"/>
+		</connection>
+		<connection connectingRoad="302" contactPoint="start" id="6" incomingRoad="4">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="304" contactPoint="end" id="7" incomingRoad="18">
+			<laneLink from="1" to="1"/>
+		</connection>
+	</junction>
+	<junction id="306">
+		<connection connectingRoad="307" contactPoint="start" id="0" incomingRoad="4">
+			<laneLink from="2" to="2"/>
+			<laneLink from="3" to="1"/>
+		</connection>
+		<connection connectingRoad="312" contactPoint="end" id="1" incomingRoad="4">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="313" contactPoint="start" id="2" incomingRoad="22">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="314" contactPoint="start" id="3" incomingRoad="4">
+			<laneLink from="-3" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+		</connection>
+		<connection connectingRoad="318" contactPoint="end" id="4" incomingRoad="4">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="319" contactPoint="end" id="5" incomingRoad="23">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="330" contactPoint="end" id="6" incomingRoad="23">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="331" contactPoint="start" id="7" incomingRoad="22">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+	</junction>
+	<junction id="332">
+		<connection connectingRoad="333" contactPoint="start" id="0" incomingRoad="25">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="334" contactPoint="start" id="1" incomingRoad="9">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="335" contactPoint="start" id="2" incomingRoad="25">
+			<laneLink from="-2" to="2"/>
+			<laneLink from="-3" to="1"/>
+		</connection>
+		<connection connectingRoad="339" contactPoint="start" id="3" incomingRoad="25">
+			<laneLink from="-1" to="-1"/>
+		</connection>
+		<connection connectingRoad="341" contactPoint="end" id="4" incomingRoad="10">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="343" contactPoint="start" id="5" incomingRoad="25">
+			<laneLink from="3" to="-1"/>
+			<laneLink from="2" to="-2"/>
+		</connection>
+		<connection connectingRoad="354" contactPoint="end" id="6" incomingRoad="10">
+			<laneLink from="1" to="1"/>
+		</connection>
+		<connection connectingRoad="355" contactPoint="start" id="7" incomingRoad="9">
+			<laneLink from="-1" to="-1"/>
+			<laneLink from="-2" to="-2"/>
+			<laneLink from="-3" to="-3"/>
+		</connection>
+	</junction>
+</Town01>
