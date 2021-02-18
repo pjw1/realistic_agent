@@ -118,7 +118,7 @@ def val(config):
     # Data loader for validation set
 #     dataset = Dataset(config["val_split"], config, train=False)
     
-    dataset = Dataset(config["val_split"]+'_cargo', config, train=False)
+    dataset = Dataset('dataset/val/data_cargo', config, train=False)
     
     
     
@@ -134,9 +134,6 @@ def val(config):
 
     csv_num = len(os.listdir(config["val_split"]+'_cargo'))
     stores = [None for x in range(csv_num)] 
-    
-    
-    
     
     t = time.time()
     for i, data in enumerate(tqdm(val_loader)):
@@ -179,7 +176,7 @@ def val(config):
         drop_last=False)
     
 #     modify(config, data_loader,config["preprocess_val"])
-    modify(config, data_loader,'/home/jongwon/Desktop/CARLA_benchmark_project/LaneGCN/dataset/preprocess/cargo_test')
+    modify(config, data_loader,'dataset/preprocess/cargo_test')
 
 
 def test(config):
