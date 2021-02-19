@@ -374,7 +374,7 @@ class ArgoTestDataset(ArgoDataset):
         split2 = config['val_split'] if split=='val' else config['test_split']
         split = self.config['preprocess_val'] if split=='val' else self.config['preprocess_test']
         
-        data_root = '/home/jongwon/Desktop/CARLA_benchmark_project/LaneGCN/dataset/'
+        data_root = os.getcwd() + '/dataset/'
         split_cargo = data_root + 'preprocess/cargo_test'
         avl_cargo = data_root + 'val/data_cargo'
         

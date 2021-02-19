@@ -273,9 +273,8 @@ def modify(config, data_loader, save):
             print((i + 1) * config['batch_size'], time.time() - t)
             t = time.time()
             
-            
-    pdb.set_trace()
-    f = open(os.path.join(root_path, 'preprocess', save), 'wb')
+          
+    f = open(os.path.join(root_path, save), 'wb')
     pickle.dump(store, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
 
@@ -286,7 +285,6 @@ class PreprocessDataset():
         self.train = train
 
     def __getitem__(self, idx):
-        from data import from_numpy, ref_copy
         data = self.split[idx]
         graph = dict()
         for key in ['lane_idcs', 'ctrs', 'pre_pairs', 'suc_pairs', 'left_pairs', 'right_pairs', 'feats']:

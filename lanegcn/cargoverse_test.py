@@ -85,14 +85,14 @@ def main():
     for ii, data in tqdm(enumerate(data_loader)):
         data = dict(data)
         with torch.no_grad():
-            pdb.set_trace()
+            #pdb.set_trace()
             
             
             output = net(data)
             # forecast first agent for calculating metrics
-#             results = [x[0:1].detach().cpu().numpy() for x in output["reg"]] 
+            results = [x[0:1].detach().cpu().numpy() for x in output["reg"]] 
             # forecast multiple agent
-            results = [x.detach().cpu().numpy() for x in output["reg"]]
+            #results = [x.detach().cpu().numpy() for x in output["reg"]]
         for i, (argo_idx, pred_traj) in enumerate(zip(data["argo_id"], results)):
             preds[argo_idx] = pred_traj.squeeze()
             cities[argo_idx] = data["city"][i]
