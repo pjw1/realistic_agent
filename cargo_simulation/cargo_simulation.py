@@ -1,16 +1,19 @@
 import carla
 import random
 from carla_painter import CarlaPainter
+import numpy as np
 import pdb
 
 def do_something(data):
     pass
 
-def init_setting(num_vehicles, delta_sec):
+def init_setting(num_vehicles, delta_sec, map_name = 'Town03'):
     client = carla.Client('localhost', 2000)
     client.set_timeout(10.0)
-    world = client.get_world()
+    
+    world = client.load_world(map_name)
     map = world.get_map()
+    
 
     # set synchronous mode
     world.apply_settings(carla.WorldSettings(
@@ -53,9 +56,6 @@ def init_setting(num_vehicles, delta_sec):
     
     vehicle_ids = [ego_vehicle.id] + other_vehicles
     
-    return client, world, map, vehicle_ids
-
-
     # attach a camera and a lidar to the ego vehicle
     camera = None
     blueprint_camera = world.get_blueprint_library().find('sensor.camera.rgb')
@@ -66,41 +66,87 @@ def init_setting(num_vehicles, delta_sec):
     transform_camera = carla.Transform(carla.Location(z=2.0))
     camera = world.spawn_actor(blueprint_camera, transform_camera, attach_to=ego_vehicle)
     camera.listen(lambda data: do_something(data))
+    
+    return client, world, map, vehicle_ids
+
+def save_tick(world, input_dict, timestamp, city_name, vehicle_ids, near_threshold = 60):
+                
+    # get neighbor vehicle ids
+    near_threshold = 60
+    vehicle_locs = []
+    for vehicle_id in vehicle_ids:
+        loc = world.get_actor(vehicle_id).get_location()
+        vehicle_locs.append([loc.x, loc.y, loc.z])
+
+    vlocs_np = np.array(vehicle_locs)
+
+    vlocs_dist = np.sqrt(np.sum(np.square(vlocs_np[0:1, :2] - vlocs_np[:,:2]), axis=1))
+    mask = vlocs_dist < near_threshold
+    near_ids = np.where(mask)[0]
+    num_near = sum(mask)
+    near_locs = vlocs_np[mask, :2]
+
+    # save tick to input_dict
+    tss = [timestamp for _ in range(num_near)]
+    tids = np.array(vehicle_ids)[near_ids].tolist()
+    ots = ['AV'] + ['OTHERS' for _ in range(num_near-1)]
+    xs = near_locs[:,0].reshape(-1).tolist()
+    ys = near_locs[:,1].reshape(-1).tolist()
+    cns = [city_name for _ in range(num_near)]
+
+    input_dict['TIMESTAMP'] = input_dict['TIMESTAMP'] + tss
+    input_dict['TRACK_ID'] = input_dict['TRACK_ID'] + tids
+    input_dict['OBJECT_TYPE'] = input_dict['OBJECT_TYPE'] + ots
+    input_dict['X'] = input_dict['X'] + xs
+    input_dict['Y'] = input_dict['Y'] + ys
+    input_dict['CITY_NAME'] = input_dict['CITY_NAME'] + cns
+
+    return input_dict
 
 def main():
+    map_name = 'Town03'
+    city_name = map_name[0] + map_name[-2:]
     num_vehicles = 200
     delta_sec = .1
     use_painter = True
     
     try:
+        
+        client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
+                                                       map_name=map_name)
+        ego_vehicle = world.get_actor(vehicle_ids[0])
+        
         # initialize one painter
         if use_painter:
             painter = CarlaPainter('localhost', 8089)
             
-        client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec)
-        ego_vehicle = world.get_actor(vehicle_ids[0])
+        # init for input dict
+        input_dict_keys = ['TIMESTAMP', 'TRACK_ID', 'OBJECT_TYPE', 'X', 'Y', 'CITY_NAME']
+        input_dict = {}
+        for key in input_dict_keys:
+            input_dict[key] = []
         
         # tick to generate these actors in the game world
+        start_time = 2.
+        anchor_ts = world.get_snapshot().timestamp.elapsed_seconds
         world.tick()
-
-        # save vehicles' trajectories to draw in the frontend
-        trajectories = [[]]
 
         while (True):
             world.tick()
-            ego_location = ego_vehicle.get_location()
-            trajectories[0].append([ego_location.x, ego_location.y, ego_location.z])
+            timestamp = world.get_snapshot().timestamp.elapsed_seconds
+            
+            if anchor_ts + start_time > timestamp:
+                # save tick to input_dict
+                input_dict = save_tick(world, input_dict, 
+                                       timestamp, city_name, vehicle_ids, 
+                                       near_threshold = 60)
+                continue
+            
+            # run lanegcn
 
-            # draw trajectories
-            painter.draw_polylines(trajectories)
-
-            # draw ego vehicle's velocity just above the ego vehicle
-            ego_velocity = ego_vehicle.get_velocity()
-            velocity_str = "{:.2f}, ".format(ego_velocity.x) + "{:.2f}".format(ego_velocity.y) \
-                    + ", {:.2f}".format(ego_velocity.z)
-            painter.draw_texts([velocity_str],
-                        [[ego_location.x, ego_location.y, ego_location.z + 10.0]], size=20)
-
+            # re init input_dict
+            
+            # prune  
 
     finally:
         pass
