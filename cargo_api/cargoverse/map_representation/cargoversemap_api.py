@@ -51,7 +51,7 @@ T05_ID = 90005
 CARLA_TOWNS=["T01", "T02", "T03", "T04", "T05"]
 
 ROOT = Path(__file__).resolve().parent.parent.parent  # ../../..
-MAP_FILES_ROOT = ROOT / "map_files"
+MAP_FILES_ROOT = ROOT / "cargomap_files"
 # Any numeric type
 Number = Union[int, float]
 

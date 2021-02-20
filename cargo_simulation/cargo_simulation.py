@@ -14,8 +14,6 @@ from utils import Logger, load_pretrain
 sys.path.append('/home/jongwon/Desktop/realistic_vehicles/cargo_api')
 from cargoverse.map_representation.cargoversemap_api import CargoverseMap
 
-
-
 import pdb
 
 def do_something(data):
@@ -122,7 +120,7 @@ def main():
     city_name = map_name[0] + map_name[-2:]
     num_vehicles = 200
     delta_sec = .1
-    use_painter = False
+    use_painter = True
     
     client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
                                                    map_name=map_name)
@@ -172,23 +170,28 @@ def main():
             continue
 
         # run lanegcn
-        pdb.set_trace()
-        assert len(ts_list) >= 20
         
+        assert len(ts_list) >= 20
         input_first_idx = traj_dict['TIMESTAMP'].index(ts_list[-20])
         
         input_dict = {}
         for key in traj_dict_keys:
             input_dict[key] = traj_dict[key][input_first_idx:]
         
-        input_data = get_preprocessed_data(map_name, input_dict, cam, curr_id)
+        input_data = collate_fn([get_preprocessed_data(map_name, input_dict, cam, curr_id)])
         curr_id = curr_id + 1
         
         with torch.no_grad():
             output = net(input_data)
-            results = [x[0:1].detach().cpu().numpy() for x in output["reg"]] 
-
-
+            results = [x.detach().cpu().numpy() for x in output["reg"]]  #(13, 6, 30, 2)
+        
+        if use_painter:
+            pts = []
+            z = ego_vehicle.get_location().z
+            xy_np = np.array(results[0]).reshape(-1, 2)
+            z_np = np.ones([xy_np.shape[0], 1]) * z
+            xyz = np.hstack((xy_np, z_np)).tolist()
+            painter.draw_points(xyz)
         # re init traj_dict
 
 

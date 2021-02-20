@@ -14,13 +14,11 @@ from cargoverse.utils.centerline_utils import centerline_to_polygon
 
 import pdb
 
-
-
 wp_root = 'wp_dicts/'
 xodr_root = 'xodr_files/'
 cargomap_root = 'cargomap/'
 
-cargoapi_root = '/home/jongwon/Desktop/realistic_vehicles/cargo_api/cargoverse/cargomap_files/'
+cargoapi_root = '/home/jongwon/Desktop/realistic_vehicles/cargo_api/cargomap_files/'
 
 available_maps = ['Town01', 'Town02', 'Town03', 'Town04', 'Town05']
 converters = {'idx':int, 'id':int, 'road_id':int, 'lane_id':int, 'loc':literal_eval, 

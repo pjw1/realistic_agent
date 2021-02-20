@@ -4,7 +4,6 @@ import numpy as np
 import math
 import pdb
 import os
-from carla_painter import CarlaPainter
 import random
 import pickle
 import pandas as pd
@@ -17,12 +16,10 @@ def wp_loc_(wp):
 
 def main():
     
-    wp_distance = .5
+    wp_distance = 1.
     xodr_root = 'xodr_files/'
     wp_root = 'wp_dicts/'
     
-#     painter = CarlaPainter('localhost', 8089)
-
     client = carla.Client('127.0.0.1', 2000)
     client.set_timeout(10.0)
     print("client has connected")
