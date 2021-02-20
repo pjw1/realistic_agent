@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from shapely.geometry import LinearRing, LineString, Point, Polygon
 
-from argoverse.map_representation.lane_segment import LaneSegment
+import sys
+sys.path.append('/home/jongwon/Desktop/realistic_vehicles/cargo_api')
+from cargoverse.map_representation.lane_segment import LaneSegment
 
 from . import mpl_plotting_utils
 from .interpolate import interp_arc

@@ -2,6 +2,20 @@ import carla
 import random
 from carla_painter import CarlaPainter
 import numpy as np
+import torch
+
+from lanegcn_preprocess import get_preprocessed_data
+
+import sys
+sys.path.append('/home/jongwon/Desktop/realistic_vehicles/lanegcn')
+from cargoverse_lanegcn import get_model
+from utils import Logger, load_pretrain
+
+sys.path.append('/home/jongwon/Desktop/realistic_vehicles/cargo_api')
+from cargoverse.map_representation.cargoversemap_api import CargoverseMap
+
+
+
 import pdb
 
 def do_something(data):
@@ -69,7 +83,7 @@ def init_setting(num_vehicles, delta_sec, map_name = 'Town03'):
     
     return client, world, map, vehicle_ids
 
-def save_tick(world, input_dict, timestamp, city_name, vehicle_ids, near_threshold = 60):
+def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshold = 60):
                 
     # get neighbor vehicle ids
     near_threshold = 60
@@ -86,7 +100,7 @@ def save_tick(world, input_dict, timestamp, city_name, vehicle_ids, near_thresho
     num_near = sum(mask)
     near_locs = vlocs_np[mask, :2]
 
-    # save tick to input_dict
+    # save tick to traj_dict
     tss = [timestamp for _ in range(num_near)]
     tids = np.array(vehicle_ids)[near_ids].tolist()
     ots = ['AV'] + ['OTHERS' for _ in range(num_near-1)]
@@ -94,67 +108,93 @@ def save_tick(world, input_dict, timestamp, city_name, vehicle_ids, near_thresho
     ys = near_locs[:,1].reshape(-1).tolist()
     cns = [city_name for _ in range(num_near)]
 
-    input_dict['TIMESTAMP'] = input_dict['TIMESTAMP'] + tss
-    input_dict['TRACK_ID'] = input_dict['TRACK_ID'] + tids
-    input_dict['OBJECT_TYPE'] = input_dict['OBJECT_TYPE'] + ots
-    input_dict['X'] = input_dict['X'] + xs
-    input_dict['Y'] = input_dict['Y'] + ys
-    input_dict['CITY_NAME'] = input_dict['CITY_NAME'] + cns
+    traj_dict['TIMESTAMP'] = traj_dict['TIMESTAMP'] + tss
+    traj_dict['TRACK_ID'] = traj_dict['TRACK_ID'] + tids
+    traj_dict['OBJECT_TYPE'] = traj_dict['OBJECT_TYPE'] + ots
+    traj_dict['X'] = traj_dict['X'] + xs
+    traj_dict['Y'] = traj_dict['Y'] + ys
+    traj_dict['CITY_NAME'] = traj_dict['CITY_NAME'] + cns
 
-    return input_dict
+    return traj_dict
 
 def main():
     map_name = 'Town03'
     city_name = map_name[0] + map_name[-2:]
     num_vehicles = 200
     delta_sec = .1
-    use_painter = True
+    use_painter = False
     
-    try:
-        
-        client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
-                                                       map_name=map_name)
-        ego_vehicle = world.get_actor(vehicle_ids[0])
-        
-        # initialize one painter
-        if use_painter:
-            painter = CarlaPainter('localhost', 8089)
-            
-        # init for input dict
-        input_dict_keys = ['TIMESTAMP', 'TRACK_ID', 'OBJECT_TYPE', 'X', 'Y', 'CITY_NAME']
-        input_dict = {}
-        for key in input_dict_keys:
-            input_dict[key] = []
-        
-        # tick to generate these actors in the game world
-        start_time = 2.
-        anchor_ts = world.get_snapshot().timestamp.elapsed_seconds
+    client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
+                                                   map_name=map_name)
+    ego_vehicle = world.get_actor(vehicle_ids[0])
+
+    cam = CargoverseMap()
+    
+    # initialize one painter
+    if use_painter:
+        painter = CarlaPainter('localhost', 8089)
+
+    # load prediction module
+    config, _, collate_fn, net, loss, post_process, opt = get_model()
+    
+    ckpt_path = '36.000.ckpt'
+    ckpt = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+    load_pretrain(net, ckpt["state_dict"])
+    net.eval()
+    
+    # init for input dict
+    curr_id = 0
+    traj_dict_keys = ['TIMESTAMP', 'TRACK_ID', 'OBJECT_TYPE', 'X', 'Y', 'CITY_NAME']
+    traj_dict = {}
+    for key in traj_dict_keys:
+        traj_dict[key] = []
+
+    # tick to generate these actors in the game world
+#     start_time = 2.
+    anchor_ts = world.get_snapshot().timestamp.elapsed_seconds
+    world.tick()
+
+    while (True):
         world.tick()
+        timestamp = world.get_snapshot().timestamp.elapsed_seconds
 
-        while (True):
-            world.tick()
-            timestamp = world.get_snapshot().timestamp.elapsed_seconds
-            
-            if anchor_ts + start_time > timestamp:
-                # save tick to input_dict
-                input_dict = save_tick(world, input_dict, 
-                                       timestamp, city_name, vehicle_ids, 
-                                       near_threshold = 60)
-                continue
-            
-            # run lanegcn
+        # save tick to traj_dict
+        traj_dict = save_tick(world, 
+                              traj_dict, 
+                              timestamp, 
+                              city_name, 
+                              vehicle_ids, 
+                              near_threshold = 60)
+        
+        # pass until saving 20 ticks 
+        ts_list = sorted(list(set(traj_dict['TIMESTAMP'])))
+        if len(ts_list) < 20:
+            continue
 
-            # re init input_dict
-            
-            # prune  
+        # run lanegcn
+        pdb.set_trace()
+        assert len(ts_list) >= 20
+        
+        input_first_idx = traj_dict['TIMESTAMP'].index(ts_list[-20])
+        
+        input_dict = {}
+        for key in traj_dict_keys:
+            input_dict[key] = traj_dict[key][input_first_idx:]
+        
+        input_data = get_preprocessed_data(map_name, input_dict, cam, curr_id)
+        curr_id = curr_id + 1
+        
+        with torch.no_grad():
+            output = net(input_data)
+            results = [x[0:1].detach().cpu().numpy() for x in output["reg"]] 
 
-    finally:
-        pass
-#         if camera is not None:
-#             camera.stop()
-#             camera.destroy()
-#         if vehicle_ids is not None:
-#             client.apply_batch([carla.command.DestroyActor(x) for x in vehicle_ids])
+
+        # re init traj_dict
+
+
+
+        # prune trajectories
+
 
 if __name__ == "__main__":
     main()

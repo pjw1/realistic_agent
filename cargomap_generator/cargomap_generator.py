@@ -4,16 +4,30 @@ import numpy as np
 import pickle
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
+import json
+
+
+import sys
+sys.path.append('/home/jongwon/Desktop/realistic_vehicles/cargo_api')
+from cargoverse.utils.manhattan_search import compute_point_cloud_bbox
+from cargoverse.utils.centerline_utils import centerline_to_polygon
+
 import pdb
+
+
 
 wp_root = 'wp_dicts/'
 xodr_root = 'xodr_files/'
 cargomap_root = 'cargomap/'
 
+cargoapi_root = '/home/jongwon/Desktop/realistic_vehicles/cargo_api/cargoverse/cargomap_files/'
+
 available_maps = ['Town01', 'Town02', 'Town03', 'Town04', 'Town05']
 converters = {'idx':int, 'id':int, 'road_id':int, 'lane_id':int, 'loc':literal_eval, 
              'is_junction':bool}
 for map_name in available_maps:
+    
+    # Generate pruned_argoverse_T0X_9000X_vector_map.xml
     
     # load wp_dict
     csv_fname = wp_root + 'wp_dict_' + map_name + '.csv'
@@ -296,5 +310,80 @@ for map_name in available_maps:
     fname_pretty = cargomap_root + f"pruned_argoverse_{city_name}_{city_id}_vector_map.xml"
     with open(fname_pretty, "w") as files:
         files.write(pretty_xml_as_string)
+        
+    fname = cargoapi_root + f"pruned_argoverse_{city_name}_{city_id}_vector_map.xml"
+    with open(fname, "w") as files:
+        files.write(pretty_xml_as_string)
+        
     print(fname_pretty, 'has saved.')
+    
+    # Generate 
+    # T0X_9000X_tableidx_to_laneid_map.json 
+    # T0X_9000X_halluc_bbox_table.npy 
+    
+    fname = xodr_root + map_name + '_light_pretty.xodr'
+    with open(fname) as fi:
+        xml_tree = ET.parse(fi)
+    root = xml_tree.getroot()
+
+    # map lane segment IDs to their index in the table
+    tableidx_to_laneid_map = {}
+    # array that holds xmin,ymin,xmax,ymax for each coord
+    halluc_bbox_table = []
+    table_idx_counter = 0
+
+    for way_dict in way_list:
+
+        if len(way_dict['nodes']) < 2:
+            print(way_dict['lane_key'], ' skipped')
+            continue
+
+        tableidx_to_laneid_map[table_idx_counter] = way_dict['curr_id']
+        table_idx_counter += 1
+
+    #     root
+        road_id, lane_id = way_dict['lane_key'].split('_')
+        for road in root.iter('road'):
+            if road.attrib['id'] == road_id:
+                for lane in road.iter('lane'):
+                    lane_ids = eval(lane.attrib['ids'])
+                    lane_widths = eval(lane.attrib['widths'])
+                    assert len(lane_ids) == len(lane_widths)
+                    width = lane_widths[lane_ids.index(lane_id)]
+
+
+        list_np_xy = []
+        for node in way_dict['nodes']:
+            x = wp_dict['loc'][node][0]
+            y = wp_dict['loc'][node][1]
+            list_np_xy.append(np.array([x, y]))
+        try:
+            poly = centerline_to_polygon(np.stack(list_np_xy), 
+                                         width_scaling_factor = width/3.8, 
+                                         visualize=False)
+        except Exception as e:
+            pdb.set_trace()
+            print(e)
+            print(np.stack(list_np_xy).shape)
+        xmin, ymin, xmax, ymax = compute_point_cloud_bbox(poly)
+        halluc_bbox_table += [(xmin, ymin, xmax, ymax)]
+
+    halluc_bbox_table = np.array(halluc_bbox_table)
+    
+    
+    np.save(
+        cargomap_root + f"{city_name}_{city_id}_halluc_bbox_table.npy",
+        halluc_bbox_table,
+    )
+    np.save(
+        cargoapi_root + f"{city_name}_{city_id}_halluc_bbox_table.npy",
+        halluc_bbox_table,
+    )
+    print(cargomap_root + f"{city_name}_{city_id}_halluc_bbox_table.npy", ' has saved')
+    
+    with open(cargomap_root + f"{city_name}_{city_id}_tableidx_to_laneid_map.json", "w") as outfile:
+        json.dump(tableidx_to_laneid_map, outfile)
+    with open(cargoapi_root + f"{city_name}_{city_id}_tableidx_to_laneid_map.json", "w") as outfile:
+        json.dump(tableidx_to_laneid_map, outfile)
+    print(cargomap_root + f"{city_name}_{city_id}_tableidx_to_laneid_map.json", ' has saved')
     
