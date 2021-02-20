@@ -115,10 +115,14 @@ def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshol
 
     return traj_dict
 
-def draw_preds(painter, results, ego_vehicle):
+def draw_preds(painter, results, z, pred_prune_mask=None):
     pts = []
-    z = ego_vehicle.get_location().z
-    xy_np = np.array(results[0]).reshape(-1, 2)
+    
+    if pred_prune_mask is not None:
+        ms = pred_prune_mask.shape
+        results = results * pred_prune_mask.reshape(ms[0], ms[1], 1, 1)
+    
+    xy_np = np.array(results).reshape(-1, 2)
     z_np = np.ones([xy_np.shape[0], 1]) * z
     xyz = np.hstack((xy_np, z_np)).tolist()
     painter.draw_points(xyz)
@@ -128,7 +132,7 @@ def main():
     city_name = map_name[0] + map_name[-2:]
     num_vehicles = 200
     delta_sec = .1
-    use_painter = False
+    use_painter = True
     
     client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
                                                    map_name=map_name)
@@ -196,19 +200,53 @@ def main():
         
         with torch.no_grad():
             output = net(input_data)
-            results = [x.detach().cpu().numpy() for x in output["reg"]]  #(13, 6, 30, 2)
+            results = [x.detach().cpu().numpy() for x in output["reg"]][0]  
         
         # prune trajectories
         prune_threshold = 0.1
-        pdb.set_trace()
-        valid_lane_ids = []
-        ego_lane_ids = cam.get_lane_segments_containing_xy(ego_loc[0], ego_loc[1], city_name)
         
+        pred_prune_mask = np.zeros([results.shape[0], results.shape[1]])  # shape: (M, 6)
+        for vehicle_idx in range(results.shape[0]): #results.shape : (M, 6, 30, 2)
+            vloc = results[vehicle_idx, 0, 0]
+            adjacent_lane_ids = []
+            dfs_lane_ids = []
+            valid_lane_ids = []
+            occupied_lane_ids = cam.get_lane_segments_containing_xy(vloc[0], vloc[1], city_name)
+
+            for lane_id in occupied_lane_ids:
+                adjacent_lane_ids = adjacent_lane_ids + cam.get_lane_segment_adjacent_ids(lane_id, city_name)
+            adjacent_lane_ids = adjacent_lane_ids + occupied_lane_ids
+
+            for lane_id in list(set(adjacent_lane_ids)):
+                if lane_id is not None:
+                    try: # when lane length is 1, dfs prints error
+                        dfs_lane_ids = dfs_lane_ids + cam.dfs(lane_id, city_name)
+                    except Exception as e:
+#                         print(e)
+                        pass
+
+            for lane_ids in dfs_lane_ids:
+                valid_lane_ids = valid_lane_ids + lane_ids
         
-        
+            kth_score_dict = {}
+            for k, kth_pred in enumerate(results[vehicle_idx]):
+                kth_score_dict[k] = []
+                for wp in kth_pred:
+#                     wp_occupied_lanes = cam.get_lane_segments_containing_xy(wp[0], wp[1], city_name)
+                    wp_occupied_lanes = []
+                    if len(wp_occupied_lanes) != 0:
+                        is_in_valid_lane = wp_occupied_lanes[0] in valid_lane_ids
+                        kth_score_dict[k].append(is_in_valid_lane)
+                        
+            for k, v in kth_score_dict.items():
+                if sum(v) > results.shape[2] * (1 - prune_threshold):
+                    pred_prune_mask[vehicle_idx, k] = 1
+                    
+#         print(pred_prune_mask)
         
         if use_painter:
-            draw_preds(painter, results, ego_loc[2]) 
+#             draw_preds(painter, results, ego_loc[2]) 
+            draw_preds(painter, results, ego_loc[2], pred_prune_mask) 
 
         
 

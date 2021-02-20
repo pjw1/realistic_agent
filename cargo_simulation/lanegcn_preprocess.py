@@ -100,14 +100,7 @@ def preprocess(graph, cross_dist, cross_angle=None, data=None):
         mat = (torch.matmul(mat, pre) + torch.matmul(mat, suc) + mat) > 0.5
 
         left_dist = dist.clone()
-        
-        try:
-            mask = mat[lane_idcs[hi], lane_idcs[wi]].logical_not()
-        except Exception as e:
-            pdb.set_trace()
-            
-            print(e)
-        
+        mask = mat[lane_idcs[hi], lane_idcs[wi]].logical_not()
         left_dist[hi[mask], wi[mask]] = 1e6
         if cross_angle is not None:
             left_dist[hi[left_mask], wi[left_mask]] = 1e6
