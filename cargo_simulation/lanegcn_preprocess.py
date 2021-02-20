@@ -183,9 +183,11 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
     steps = [mapping[x] for x in df['TIMESTAMP'].values]
     steps = np.asarray(steps, np.int64)
 
+    
     objs = df.groupby(['TRACK_ID', 'OBJECT_TYPE']).groups
     keys = list(objs.keys())
     obj_type = [x[1] for x in keys]
+    vids = [x[0] for x in keys]
 
     ctx_trajs, ctx_steps = [], []
     for key in keys:
@@ -436,6 +438,6 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
     store['graph']['left'] = out['left']
     store['graph']['right'] = out['right']
     
-    return store
+    return store, vids
 
     
