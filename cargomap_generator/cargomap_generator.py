@@ -365,9 +365,7 @@ for map_name in available_maps:
             print(np.stack(list_np_xy).shape)
         xmin, ymin, xmax, ymax = compute_point_cloud_bbox(poly)
         halluc_bbox_table += [(xmin, ymin, xmax, ymax)]
-
     halluc_bbox_table = np.array(halluc_bbox_table)
-    
     
     np.save(
         cargomap_root + f"{city_name}_{city_id}_halluc_bbox_table.npy",

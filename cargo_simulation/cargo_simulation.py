@@ -115,12 +115,20 @@ def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshol
 
     return traj_dict
 
+def draw_preds(painter, results, ego_vehicle):
+    pts = []
+    z = ego_vehicle.get_location().z
+    xy_np = np.array(results[0]).reshape(-1, 2)
+    z_np = np.ones([xy_np.shape[0], 1]) * z
+    xyz = np.hstack((xy_np, z_np)).tolist()
+    painter.draw_points(xyz)
+
 def main():
     map_name = 'Town03'
     city_name = map_name[0] + map_name[-2:]
     num_vehicles = 200
     delta_sec = .1
-    use_painter = True
+    use_painter = False
     
     client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
                                                    map_name=map_name)
@@ -155,6 +163,9 @@ def main():
     while (True):
         world.tick()
         timestamp = world.get_snapshot().timestamp.elapsed_seconds
+        ego_loc = [ego_vehicle.get_location().x, 
+                   ego_vehicle.get_location().y, 
+                   ego_vehicle.get_location().z]
 
         # save tick to traj_dict
         traj_dict = save_tick(world, 
@@ -168,9 +179,11 @@ def main():
         ts_list = sorted(list(set(traj_dict['TIMESTAMP'])))
         if len(ts_list) < 20:
             continue
-
-        # run lanegcn
         
+        # To Do: backup log when dict gets too big
+        # traj_dict = backup_log(...)
+        
+        # run lanegcn
         assert len(ts_list) >= 20
         input_first_idx = traj_dict['TIMESTAMP'].index(ts_list[-20])
         
@@ -185,18 +198,19 @@ def main():
             output = net(input_data)
             results = [x.detach().cpu().numpy() for x in output["reg"]]  #(13, 6, 30, 2)
         
-        if use_painter:
-            pts = []
-            z = ego_vehicle.get_location().z
-            xy_np = np.array(results[0]).reshape(-1, 2)
-            z_np = np.ones([xy_np.shape[0], 1]) * z
-            xyz = np.hstack((xy_np, z_np)).tolist()
-            painter.draw_points(xyz)
-        # re init traj_dict
-
-
-
         # prune trajectories
+        prune_threshold = 0.1
+        pdb.set_trace()
+        valid_lane_ids = []
+        ego_lane_ids = cam.get_lane_segments_containing_xy(ego_loc[0], ego_loc[1], city_name)
+        
+        
+        
+        
+        if use_painter:
+            draw_preds(painter, results, ego_loc[2]) 
+
+        
 
 
 if __name__ == "__main__":
