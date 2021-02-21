@@ -186,7 +186,6 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
     
     objs = df.groupby(['TRACK_ID', 'OBJECT_TYPE']).groups
     keys = list(objs.keys())
-    obj_type = [x[1] for x in keys]
     vids = [x[0] for x in keys]
 
     ctx_trajs, ctx_steps = [], []
@@ -210,9 +209,9 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
     rot = np.asarray([
         [np.cos(theta), -np.sin(theta)],
         [np.sin(theta), np.cos(theta)]], np.float32)
-
-    feats, ctrs, gt_preds, has_preds = [], [], [], []
-    for traj, step in zip(data['trajs'], data['steps']):
+    
+    feats, ctrs, gt_preds, has_preds, v_ids = [], [], [], [], []
+    for traj, step, vid in zip(data['trajs'], data['steps'], vids):
         if 19 not in step:
             continue
 
@@ -254,6 +253,7 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
         feats.append(feat)
         gt_preds.append(gt_pred)
         has_preds.append(has_pred)
+        v_ids.append(vid)
 
     feats = np.asarray(feats, np.float32)
     ctrs = np.asarray(ctrs, np.float32)
@@ -438,6 +438,6 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
     store['graph']['left'] = out['left']
     store['graph']['right'] = out['right']
     
-    return store, vids
+    return store, v_ids
 
     

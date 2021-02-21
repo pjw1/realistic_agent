@@ -14,6 +14,8 @@ from utils import Logger, load_pretrain
 sys.path.append('/home/jongwon/Desktop/realistic_vehicles/cargo_api')
 from cargoverse.map_representation.cargoversemap_api import CargoverseMap
 
+from controller import PIDController
+
 import pdb
 
 def do_something(data):
@@ -115,12 +117,18 @@ def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshol
 
     return traj_dict
 
-def prune_preds(results, vids, cam, city_name, prune_threshold = 0.1):
+def prune_preds(world, results, vids, cam, city_name, prune_threshold = 0.1):
     prune_threshold = 0.1
-
+    
     pred_prune_mask = np.zeros([results.shape[0], results.shape[1]])  # shape: (M, 6)
-    for vehicle_id in vids: #results.shape : (M, 6, 30, 2)
-        vloc = world.get_actor(vehicle_id).get_location()
+    for vehicle_idx, vehicle_id in enumerate(vids): #results.shape : (M, 6, 30, 2)
+        # get valid lane 
+        vehicle = world.get_actor(vehicle_id)
+        vloc = vehicle.get_location()
+        
+        vori = vehicle.get_transform().get_forward_vector()
+        
+        
         adjacent_lane_ids = []
         dfs_lane_ids = []
         valid_lane_ids = []
@@ -140,20 +148,29 @@ def prune_preds(results, vids, cam, city_name, prune_threshold = 0.1):
 
         for lane_ids in dfs_lane_ids:
             valid_lane_ids = valid_lane_ids + lane_ids
-
-        kth_score_dict = {}
+        
+        
+        kth_validity = []
         for k, kth_pred in enumerate(results[vehicle_idx]):
-            kth_score_dict[k] = []
-            for wp in kth_pred:
-                # cost too high
-                wp_occupied_lanes = cam.get_lane_segments_containing_xy(wp[0], wp[1], city_name)
-#                 wp_occupied_lanes = []
-                if len(wp_occupied_lanes) != 0:
-                    is_in_valid_lane = wp_occupied_lanes[0] in valid_lane_ids
-                    kth_score_dict[k].append(is_in_valid_lane)
-
-        for k, v in kth_score_dict.items():
-            if sum(v) > results.shape[2] * (1 - prune_threshold):
+            check_idx = int(results.shape[2] * (1 - prune_threshold))
+            
+            wp = kth_pred[check_idx] # sample wp
+            wp_occupied_lanes = cam.get_lane_segments_containing_xy(wp[0], wp[1], city_name)
+            
+            if len(wp_occupied_lanes) != 0:
+                is_in_valid_lane = (wp_occupied_lanes[0] in valid_lane_ids)
+            else:
+                is_in_valid_lane = False
+            
+            if np.dot((kth_pred[-1] - kth_pred[0]), np.array([vori.x, vori.y])) > 0:
+                is_heading_forward = True
+            else:
+                is_heading_forward = False
+                
+            kth_validity.append(is_in_valid_lane and is_heading_forward)
+                
+        for k, valid in enumerate(kth_validity):
+            if valid:
                 pred_prune_mask[vehicle_idx, k] = 1
     
     return pred_prune_mask
@@ -171,11 +188,11 @@ def draw_preds(painter, results, z, show_k = -1):
 def main():
     map_name = 'Town03'
     city_name = map_name[0] + map_name[-2:]
-    num_vehicles = 200
+    num_vehicles = 0
     delta_sec = .1
-    use_prune = False
+    use_prune = True
     use_pid = True
-    use_painter = False
+    use_painter = True
     
     client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
                                                    map_name=map_name)
@@ -195,6 +212,17 @@ def main():
     load_pretrain(net, ckpt["state_dict"])
     net.eval()
     
+    # PID Controller
+    TURNING_PID = {
+        'K_P': 1.5,
+        'K_I': 0.5,
+        'K_D': 0.0,
+        'fps': 10
+        }
+    
+    turn_control = PIDController(**TURNING_PID)
+    speed_control = PIDController(K_P=1.0)
+    
     # init for input dict
     curr_id = 0
     traj_dict_keys = ['TIMESTAMP', 'TRACK_ID', 'OBJECT_TYPE', 'X', 'Y', 'CITY_NAME']
@@ -205,7 +233,7 @@ def main():
     # tick to generate these actors in the game world
     anchor_ts = world.get_snapshot().timestamp.elapsed_seconds
     world.tick()
-
+    
     while (True):
         world.tick()
         timestamp = world.get_snapshot().timestamp.elapsed_seconds
@@ -228,47 +256,79 @@ def main():
         # traj_dict = backup_log(...)
         
         # run lanegcn
-        pred_delta = 0.5
+        pred_delta = .1
         
         if len(ts_list) >= 20 and len(ts_list) % (pred_delta * 10) == 0:
-            input_first_idx = traj_dict['TIMESTAMP'].index(ts_list[-20])
             
+            # pred trajs 
+            input_first_idx = traj_dict['TIMESTAMP'].index(ts_list[-20])
             input_dict = {}
             for key in traj_dict_keys:
                 input_dict[key] = traj_dict[key][input_first_idx:]
             
-            pdb.set_trace()
-            
             preprocessed_data, vids=get_preprocessed_data(map_name,input_dict,cam,curr_id)
             input_data = collate_fn([preprocessed_data])
             curr_id = curr_id + 1
-
+            
             with torch.no_grad():
                 output = net(input_data)
                 results = [x.detach().cpu().numpy() for x in output["reg"]][0]  
 
-            # prune trajectories
+            # prune trajs
             if use_prune:
-                pred_prune_mask = prune_preds(results, vids, cam, city_name, prune_threshold = 0.1)
+                pred_prune_mask = prune_preds(world, results, vids, cam, city_name, prune_threshold = 0.1)
                 ms = pred_prune_mask.shape
                 results = results * pred_prune_mask.reshape(ms[0], ms[1], 1, 1)
-
+            
+            # control
             if use_pid:
+                vidx = 0
+                vehicle_id = vids[vidx]
+                vehicle = world.get_actor(vehicle_id)
                 
+                # if vidx, kth traj are pruned -> run autopilot
+                if np.unique(results[vidx, 0]).shape[0] == 1: 
+                    batch = [carla.command.SetAutopilot(vehicle_id, True)]
+                    results_ = client.apply_batch_sync(batch, True)
+                    continue
+                    
+                # if vidx, kth traj exist -> run pid control
+                ox = vehicle.get_transform().get_forward_vector().x
+                oy = vehicle.get_transform().get_forward_vector().y
+                rot = np.array([
+                    [ox, oy],
+                    [-oy, ox]])
                 
+                # vidxth vehicle's target: 0th traj, t-th wp
+                t = 1
+                target = results[vidx, 0, t]
+                pos = vehicle.get_location()
+                pos = np.array([pos.x, pos.y])
+                diff = rot.dot(target - pos)
                 
+                speed = vehicle.get_velocity()
+                speed = np.linalg.norm([speed.x, speed.y])
                 
-                steer = self.turn_control.step(theta)
+                u = np.array([diff[0], diff[1], 0.0])
+                v = np.array([1.0, 0.0, 0.0])
+                theta = np.arccos(np.dot(u, v) / np.linalg.norm(u))
+                theta = theta if np.cross(u, v)[2] < 0 else -theta
+                steer = turn_control.step(theta)
                 
+                # throttle
+                v = np.linalg.norm(results[vidx, 0, t+1] - results[vidx, 0, t])
+                if v != 0:
+                    target_speed = v * 10
+                    
+                throttle = speed_control.step(target_speed - speed)
                 control = carla.VehicleControl()
                 control.steer = np.clip(steer, -1.0, 1.0)
                 control.throttle = np.clip(throttle, 0.0, 1.0)
                 control.brake = 0.0
                 control.manual_gear_shift = False
-
                 
-                batch = [carla.command.SetAutopilot(vehicle_ids[0], False),
-                        carla.command.ApplyVehicleControl(vehicle_ids[0], ctrl)]
+                batch = [carla.command.SetAutopilot(vehicle_id, False),
+                        carla.command.ApplyVehicleControl(vehicle_id, control)]
                 results_ = client.apply_batch_sync(batch, True)
 
             if use_painter:
