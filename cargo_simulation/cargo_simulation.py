@@ -192,7 +192,7 @@ def main():
     delta_sec = .1
     use_prune = True
     use_pid = True
-    use_painter = True
+    use_painter = False
     
     client, world, map, vehicle_ids = init_setting(num_vehicles, delta_sec, 
                                                    map_name=map_name)
@@ -300,33 +300,36 @@ def main():
                     [-oy, ox]])
                 
                 # vidxth vehicle's target: 0th traj, t-th wp
-                t = 1
+#                 ctrl_delta = .1
+#                 for t in range(pred_delta / ctrl_delta):
+                
+                t = 0
                 target = results[vidx, 0, t]
                 pos = vehicle.get_location()
                 pos = np.array([pos.x, pos.y])
                 diff = rot.dot(target - pos)
-                
+
                 speed = vehicle.get_velocity()
                 speed = np.linalg.norm([speed.x, speed.y])
-                
+
                 u = np.array([diff[0], diff[1], 0.0])
                 v = np.array([1.0, 0.0, 0.0])
                 theta = np.arccos(np.dot(u, v) / np.linalg.norm(u))
                 theta = theta if np.cross(u, v)[2] < 0 else -theta
                 steer = turn_control.step(theta)
-                
+
                 # throttle
                 v = np.linalg.norm(results[vidx, 0, t+1] - results[vidx, 0, t])
                 if v != 0:
                     target_speed = v * 10
-                    
+
                 throttle = speed_control.step(target_speed - speed)
                 control = carla.VehicleControl()
-                control.steer = np.clip(steer, -1.0, 1.0)
+                control.steer = np.clip(steer, -.5, .5)
                 control.throttle = np.clip(throttle, 0.0, 1.0)
                 control.brake = 0.0
                 control.manual_gear_shift = False
-                
+
                 batch = [carla.command.SetAutopilot(vehicle_id, False),
                         carla.command.ApplyVehicleControl(vehicle_id, control)]
                 results_ = client.apply_batch_sync(batch, True)

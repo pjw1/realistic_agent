@@ -61,6 +61,8 @@ def to_long(data):
 
 
 def preprocess(graph, cross_dist, cross_angle=None, data=None):
+    pdb.set_trace()
+    
     left, right = dict(), dict()
 
     lane_idcs = graph['lane_idcs']
@@ -135,6 +137,7 @@ def preprocess(graph, cross_dist, cross_angle=None, data=None):
 
         right_dist = dist.clone()
         mask = mat[lane_idcs[hi], lane_idcs[wi]].logical_not()
+        
         right_dist[hi[mask], wi[mask]] = 1e6
         if cross_angle is not None:
             right_dist[hi[right_mask], wi[right_mask]] = 1e6
