@@ -61,8 +61,6 @@ def to_long(data):
 
 
 def preprocess(graph, cross_dist, cross_angle=None, data=None):
-    pdb.set_trace()
-    
     left, right = dict(), dict()
 
     lane_idcs = graph['lane_idcs']
@@ -185,7 +183,6 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
 
     steps = [mapping[x] for x in df['TIMESTAMP'].values]
     steps = np.asarray(steps, np.int64)
-
     
     objs = df.groupby(['TRACK_ID', 'OBJECT_TYPE']).groups
     keys = list(objs.keys())
@@ -245,7 +242,7 @@ def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
 
 
         #LaneGCN Default Setting (Pred Range) -> can be change to CARLA
-        x_min, x_max, y_min, y_max = [-200.0, 200.0, -200.0, 200.0] 
+        x_min, x_max, y_min, y_max = [-100.0, 100.0, -100.0, 100.0] 
 
         if feat[-1, 0] < x_min or feat[-1, 0] > x_max or feat[-1, 1] < y_min or feat[-1, 1] > y_max:
             continue
