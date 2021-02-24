@@ -88,8 +88,17 @@ def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshol
     near_threshold = 60
     vehicle_locs = []
     for vehicle_id in vehicle_ids:
-        loc = world.get_actor(vehicle_id).get_location()
-        vehicle_locs.append([loc.x, loc.y, loc.z])
+        vehicle = world.get_actor(vehicle_id)
+        loc = vehicle.get_location()
+        transform = vehicle.get_transform()
+        bb_vertices = vehicle.bounding_box.get_world_vertices(transform)
+        x = (bb_vertices[4].x + bb_vertices[5].x + bb_vertices[6].x + bb_vertices[7].x)/4
+        y = (bb_vertices[4].y + bb_vertices[5].y + bb_vertices[6].y + bb_vertices[7].y)/4
+        z = (bb_vertices[4].z + bb_vertices[5].z + bb_vertices[6].z + bb_vertices[7].z)/4
+        #pdb.set_trace()
+
+        #vehicle_locs.append([loc.x, loc.y, loc.z])
+        vehicle_locs.append([x, y, z])
 
     vlocs_np = np.array(vehicle_locs)
 
@@ -234,7 +243,6 @@ def main():
     anchor_ts = world.get_snapshot().timestamp.elapsed_seconds
     world.tick()
     
-    lines = []
     while (True):
         world.tick()
         timestamp = world.get_snapshot().timestamp.elapsed_seconds
@@ -257,7 +265,7 @@ def main():
         # traj_dict = backup_log(...)
         
         # Prediction Module
-        pred_delta = .5
+        pred_delta = .1
         if len(ts_list) >= 20 and len(ts_list) % (pred_delta * 10) == 0:
             
             # pred trajs 
@@ -307,7 +315,7 @@ def main():
             # vidx-th vehicle's target: 0-th traj, t-th wp
             t = int(len(ts_list) % (pred_delta * 10))
             if t % (ctrl_delta * 10) == 0:
-                t = t
+                t = t 
                 target = results[vidx, 0, t]
 
                 pos = vehicle.get_location()
@@ -324,23 +332,26 @@ def main():
                 steer = turn_control.step(theta)
 
                 # throttle
-                v = np.linalg.norm(results[vidx, 0, t+1] - results[vidx, 0, t])
+                v = np.linalg.norm(np.mean(results[vidx, 0, 1:] - results[vidx, 0, :-1], axis=0))
                 if v != 0:
-                    target_speed = v * 10
+                    target_speed = v * 5
 
                 throttle = speed_control.step(target_speed - speed)
 
-                xy = target.tolist()
-                xy.append(vehicle.get_location().z)
-                lines.append(xy)
-                painter.draw_polylines([lines], color='#00FF00', width=2.5)
+                target = target.tolist()
+                z = 10
+                target.append(z)
+                saved_pos = [traj_dict['X'][-1], traj_dict['Y'][-1], z]
+                
+                #pdb.set_trace()
+                #painter.draw_points([target])
                 
                 control = carla.VehicleControl()
                 control.steer = np.clip(steer, -.5, .5)
                 control.throttle = np.clip(throttle, 0.0, 1.0)
                 control.brake = 0.0
                 control.manual_gear_shift = False
-
+		                
                 batch = [carla.command.SetAutopilot(vehicle_id, False),
                          carla.command.ApplyVehicleControl(vehicle_id, control)]
                 results_ = client.apply_batch_sync(batch, True)
