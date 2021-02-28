@@ -232,7 +232,7 @@ def main():
     
     # PID Controller
     TURNING_PID = {
-        'K_P': 1.0,
+        'K_P': 1.5,
         'K_I': 0.5,
         'K_D': 0.0,
         'fps': 10
@@ -301,42 +301,43 @@ def main():
                 ms = pred_prune_mask.shape
                 results = results * pred_prune_mask.reshape(ms[0], ms[1], 1, 1)
                 
-                # find first not pruned traj of vidx's
-                vidx = 0
+            if use_painter:
+                draw_preds(painter, results, ego_loc[2], show_k=-1) 
+                
+        # Control Module
+        if use_pid and len(ts_list) >= start_tick and len(ts_list) % (ctrl_delta * 10) == 0:
+            
+            pos_list = []
+            command_batch = []
+#             pdb.set_trace()
+            for vidx in range(results.shape[0]):
+                vehicle_id = vids[vidx]
+                vehicle = world.get_actor(vehicle_id)
+                
+                 # find first not pruned traj of vidx's
                 for k in range(results.shape[1]):
                     if np.unique(results[vidx, k]).shape[0] != 1:
                         break
                 selected_traj[k] = selected_traj[k] + 1
-                
-#             if use_painter:
-#                 draw_preds(painter, results, ego_loc[2], show_k=-1) 
-                
-        # Control Module
-        if use_pid and len(ts_list) >= start_tick and len(ts_list) % (ctrl_delta * 10) == 0:
-#             pdb.set_trace()
-            pos_list = []
-            for vidx in range(results.shape[0]):
-                vehicle_id = vids[vidx]
-                vehicle = world.get_actor(vehicle_id)
             
-                # if vidx, kth traj are pruned -> run autopilot
+#                 if vidx, kth traj are pruned -> run autopilot
                 if np.unique(results[vidx, k]).shape[0] == 1: 
                     batch = [carla.command.SetAutopilot(vehicle_id, True)]
-                    results_ = client.apply_batch_sync(batch, True)
+                    command_batch = command_batch + batch
+#                     results_ = client.apply_batch_sync(batch, True)
                     selected_traj[k] = selected_traj[k] - 1
                     continue
                 
 #             print(selected_traj)
-            # if vidx, kth traj exist -> run pid control\
+            # if vidx, kth traj exist -> run pid control
             # continue from outer loop
-            else:
+#             else:
                 ox = vehicle.get_transform().get_forward_vector().x
                 oy = vehicle.get_transform().get_forward_vector().y
                 rot = np.array([
                     [ox, oy],
                     [-oy, ox]])
-            
-            
+
                 # vidx-th vehicle's target: 0-th traj, t-th wp
                 t = int(len(ts_list) % (pred_delta * 10))
                 if t % (ctrl_delta * 10) == 0:
@@ -346,7 +347,7 @@ def main():
                     pos = vehicle.get_location()
                     pos_np = np.array([pos.x, pos.y])
                     pos_list.append([pos.x, pos.y, 3])
-                    
+
                     diff = rot.dot(target - pos_np)
 
                     speed = vehicle.get_velocity()
@@ -360,7 +361,7 @@ def main():
 
                     # throttle
                     v = np.linalg.norm(results[vidx, k, t+1] - results[vidx, k, t])
-                    target_speed = v * 5
+                    target_speed = v * 8
 
                     throttle = speed_control.step(target_speed - speed)
 
@@ -372,9 +373,11 @@ def main():
 
                     batch = [carla.command.SetAutopilot(vehicle_id, False),
                              carla.command.ApplyVehicleControl(vehicle_id, control)]
-                    results_ = client.apply_batch_sync(batch, True)
-            if use_painter:
-                painter.draw_points(pos_list)
+                    
+                    command_batch = command_batch + batch
+            results_ = client.apply_batch_sync(command_batch, True)
+#             if use_painter:
+#                 painter.draw_points(pos_list)
             
         
 
