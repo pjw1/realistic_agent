@@ -87,7 +87,7 @@ def init_setting(num_vehicles, delta_sec, map_name = 'Town03'):
 
 def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshold = 50):
     # get neighbor vehicle ids
-    near_threshold = 60
+#     near_threshold = 60
     vehicle_locs = []
     for vehicle_id in vehicle_ids:
         vehicle = world.get_actor(vehicle_id)
@@ -100,7 +100,7 @@ def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshol
         #pdb.set_trace()
 
         vehicle_locs.append([loc.x, loc.y, loc.z])
-#         vehicle_locs.append([x, y, z])
+        #vehicle_locs.append([x, y, z])
 
     vlocs_np = np.array(vehicle_locs)
 
@@ -203,7 +203,7 @@ def main():
     start_tick = 50
     
     delta_sec = .1
-    pred_delta = 1.
+    pred_delta = .5
     ctrl_delta = .1
     
     near_threshold = 50
@@ -241,6 +241,7 @@ def main():
     turn_control = PIDController(**TURNING_PID)
     speed_control = PIDController(K_P=1.0)
     tick = 0
+    results = None
     
     # init for input dict
     curr_id = 0
@@ -301,15 +302,15 @@ def main():
                 ms = pred_prune_mask.shape
                 results = results * pred_prune_mask.reshape(ms[0], ms[1], 1, 1)
                 
-            if use_painter:
-                draw_preds(painter, results, ego_loc[2], show_k=-1) 
+#             if use_painter:
+#                 draw_preds(painter, results, ego_loc[2], show_k=-1) 
                 
         # Control Module
-        if use_pid and len(ts_list) >= start_tick and len(ts_list) % (ctrl_delta * 10) == 0:
-            
+        if use_pid and results is not None and len(ts_list) % (ctrl_delta * 10) == 0:
             pos_list = []
+            target_list = []
             command_batch = []
-#             pdb.set_trace()
+            pdb.set_trace()
             for vidx in range(results.shape[0]):
                 vehicle_id = vids[vidx]
                 vehicle = world.get_actor(vehicle_id)
@@ -320,34 +321,37 @@ def main():
                         break
                 selected_traj[k] = selected_traj[k] + 1
             
-#                 if vidx, kth traj are pruned -> run autopilot
                 if np.unique(results[vidx, k]).shape[0] == 1: 
                     batch = [carla.command.SetAutopilot(vehicle_id, True)]
                     command_batch = command_batch + batch
-#                     results_ = client.apply_batch_sync(batch, True)
                     selected_traj[k] = selected_traj[k] - 1
                     continue
                 
-#             print(selected_traj)
-            # if vidx, kth traj exist -> run pid control
-            # continue from outer loop
-#             else:
                 ox = vehicle.get_transform().get_forward_vector().x
                 oy = vehicle.get_transform().get_forward_vector().y
                 rot = np.array([
                     [ox, oy],
                     [-oy, ox]])
-
+                
                 # vidx-th vehicle's target: 0-th traj, t-th wp
                 t = int(len(ts_list) % (pred_delta * 10))
                 if t % (ctrl_delta * 10) == 0:
                     t = t 
                     target = results[vidx, k, t]
-
-                    pos = vehicle.get_location()
-                    pos_np = np.array([pos.x, pos.y])
-                    pos_list.append([pos.x, pos.y, 3])
-
+                    target_list.append([target[0], target[1], 3])
+                    
+                    transform = vehicle.get_transform()
+                    bb_vertices = vehicle.bounding_box.get_world_vertices(transform)
+                    x = (bb_vertices[4].x + bb_vertices[5].x + bb_vertices[6].x + bb_vertices[7].x)/4
+                    y = (bb_vertices[4].y + bb_vertices[5].y + bb_vertices[6].y + bb_vertices[7].y)/4
+                    pos_np = np.array([x, y])
+                    pos_list.append([x, y, 3])
+                    
+#                     pos = vehicle.get_location()
+#                     pos_np = np.array([pos.x, pos.y])
+#                     pos_list.append([pos.x, pos.y, 3])
+                    
+                    ori = np.array([ox, oy]).dot(target - pos_np)
                     diff = rot.dot(target - pos_np)
 
                     speed = vehicle.get_velocity()
@@ -357,28 +361,32 @@ def main():
                     v = np.array([1.0, 0.0, 0.0])
                     theta = np.arccos(np.dot(u, v) / np.linalg.norm(u))
                     theta = theta if np.cross(u, v)[2] < 0 else -theta
+                    #if ori > 0:
                     steer = turn_control.step(theta)
 
                     # throttle
                     v = np.linalg.norm(results[vidx, k, t+1] - results[vidx, k, t])
-                    target_speed = v * 8
+                    target_speed = v * 5
 
                     throttle = speed_control.step(target_speed - speed)
 
                     control = carla.VehicleControl()
-                    control.steer = np.clip(steer, -.5, .5)
-                    control.throttle = np.clip(throttle, 0.0, 1.0)
+                    control.steer = np.clip(steer, -1., 1.)
+                    control.throttle = np.clip(throttle, 0.0, .5)
                     control.brake = 0.0
+                    if ori < 0:
+                        control.throttle = 0.0
                     control.manual_gear_shift = False
 
                     batch = [carla.command.SetAutopilot(vehicle_id, False),
                              carla.command.ApplyVehicleControl(vehicle_id, control)]
                     
                     command_batch = command_batch + batch
+#             pdb.set_trace()
             results_ = client.apply_batch_sync(command_batch, True)
-#             if use_painter:
-#                 painter.draw_points(pos_list)
-            
+            if use_painter:
+                painter.draw_points(pos_list, '#FFFFFF')
+                painter.draw_points(target_list)
         
 
 if __name__ == "__main__":

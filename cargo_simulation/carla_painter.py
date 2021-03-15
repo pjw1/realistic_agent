@@ -40,12 +40,13 @@ class CarlaPainter(object):
         else:
             self._draw_polylines(lines, color, width)
 
-    def draw_points(self, points):
+    def draw_points(self, points, color='#FFFFFF'):
         """Draw several points in the CarlaViz frontend
         Args:
             points (list): list of point to draw. Should be in the format of
                            [point_1, point_2, point_3...]. Every point should
                            be in the format of [p_x, p_y, p_z].
+            color : color of points
         Raises:
             Exception: ValueError raised when the input format is not correct.
         """
@@ -55,9 +56,9 @@ class CarlaPainter(object):
             self._logger.warning('no points will be drawn')
             return
         if isinstance(points[0], list) and not isinstance(points[0][0], list):
-            self._draw_points([points])
+            self._draw_points([points], color)
         else:
-            self._draw_points(points)
+            self._draw_points(points, color)
 
     def draw_texts(self, messages, positions, color='#fff', size=13):
         """Draw several texts in the CarlaViz frontend
@@ -98,10 +99,11 @@ class CarlaPainter(object):
             self._logger.error(e)
 
 
-    def _draw_points(self, points):
+    def _draw_points(self, points, color='#FFFFFF'):
         data_dict = {}
         data_dict['type'] = 'point'
         data_dict['points'] = points
+        data_dict['color'] = color
         try:
             self._ws.send(json.dumps(data_dict))
         except Exception as e:
