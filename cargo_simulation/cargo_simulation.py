@@ -23,9 +23,10 @@ def do_something(data):
 
 def init_setting(num_vehicles, delta_sec, map_name = 'Town03'):
     client = carla.Client('localhost', 2000)
-    client.set_timeout(10.0)
+    client.set_timeout(1000.0)
     
     world = client.load_world(map_name)
+    
     map = world.get_map()
     
     tm = client.get_trafficmanager()
@@ -46,7 +47,11 @@ def init_setting(num_vehicles, delta_sec, map_name = 'Town03'):
         other_vehicles_transforms.append(spawn_points[random.randint(0, len(spawn_points) - 1)])
 
     blueprints_vehicles = [x for x in blueprints_vehicles if int(x.get_attribute('number_of_wheels')) == 4]
-    # set ego vehicle's role name to let CarlaViz know this vehicle is the ego vehicle
+    
+    #pdb.set_trace()
+    
+    # set ego vehicle
+    #blueprints_vehicles[0] = world.get_blueprint_library().filter("vehicle.tesla.model3")
     blueprints_vehicles[0].set_attribute('role_name', 'ego') # or set to 'hero'
     batch = [carla.command.SpawnActor(blueprints_vehicles[0], ego_transform).then(carla.command.SetAutopilot(carla.command.FutureActor, True))]
     results = client.apply_batch_sync(batch, True)
@@ -92,15 +97,7 @@ def save_tick(world, traj_dict, timestamp, city_name, vehicle_ids, near_threshol
     for vehicle_id in vehicle_ids:
         vehicle = world.get_actor(vehicle_id)
         loc = vehicle.get_location()
-        transform = vehicle.get_transform()
-        bb_vertices = vehicle.bounding_box.get_world_vertices(transform)
-        x = (bb_vertices[4].x + bb_vertices[5].x + bb_vertices[6].x + bb_vertices[7].x)/4
-        y = (bb_vertices[4].y + bb_vertices[5].y + bb_vertices[6].y + bb_vertices[7].y)/4
-        z = (bb_vertices[4].z + bb_vertices[5].z + bb_vertices[6].z + bb_vertices[7].z)/4
-        #pdb.set_trace()
-
         vehicle_locs.append([loc.x, loc.y, loc.z])
-        #vehicle_locs.append([x, y, z])
 
     vlocs_np = np.array(vehicle_locs)
 
@@ -191,8 +188,7 @@ def draw_preds(painter, results, z, show_k = -1):
         results = results[:, show_k]
     
     xy_np = np.array(results).reshape(-1, 2)
-#     z_np = np.ones([xy_np.shape[0], 1]) * z
-    z_np = np.ones([xy_np.shape[0], 1]) * 4
+    z_np = np.ones([xy_np.shape[0], 1]) * 10
     xyz = np.hstack((xy_np, z_np)).tolist()
     painter.draw_points(xyz)
 
@@ -232,14 +228,14 @@ def main():
     
     # PID Controller
     TURNING_PID = {
-        'K_P': 1.5,
-        'K_I': 0.5,
-        'K_D': 0.0,
-        'fps': 10
+        'K_P': 1.0, #1.5
+        'K_I': 0.0, #0.5
+        'K_D': 0.0, #0.0
+#         'fps': 10
         }
     
     turn_control = PIDController(**TURNING_PID)
-    speed_control = PIDController(K_P=1.0)
+    speed_control = PIDController(K_P=.8, K_I=.08, K_D=0.)
     tick = 0
     results = None
     
@@ -259,6 +255,7 @@ def main():
     
     while (True):
         world.tick()
+#         world.wait_for_tick(3000000.0)
         timestamp = world.get_snapshot().timestamp.elapsed_seconds
         ego_loc = [ego_vehicle.get_location().x, 
                    ego_vehicle.get_location().y, 
@@ -281,7 +278,6 @@ def main():
         # Prediction Module
         
         if len(ts_list) >= start_tick and len(ts_list) % (pred_delta * 10) == 0:
-            
             # pred trajs 
             input_first_idx = traj_dict['TIMESTAMP'].index(ts_list[-20])
             input_dict = {}
@@ -302,15 +298,17 @@ def main():
                 ms = pred_prune_mask.shape
                 results = results * pred_prune_mask.reshape(ms[0], ms[1], 1, 1)
                 
-#             if use_painter:
-#                 draw_preds(painter, results, ego_loc[2], show_k=-1) 
+            if use_painter:
+                draw_preds(painter, results, ego_loc[2], show_k=0) 
+                
+#         if results is not None and len(ts_list) % (ctrl_delta * 10) == 0:
+#             pdb.set_trace()
                 
         # Control Module
         if use_pid and results is not None and len(ts_list) % (ctrl_delta * 10) == 0:
             pos_list = []
             target_list = []
             command_batch = []
-            pdb.set_trace()
             for vidx in range(results.shape[0]):
                 vehicle_id = vids[vidx]
                 vehicle = world.get_actor(vehicle_id)
@@ -340,16 +338,9 @@ def main():
                     target = results[vidx, k, t]
                     target_list.append([target[0], target[1], 3])
                     
-                    transform = vehicle.get_transform()
-                    bb_vertices = vehicle.bounding_box.get_world_vertices(transform)
-                    x = (bb_vertices[4].x + bb_vertices[5].x + bb_vertices[6].x + bb_vertices[7].x)/4
-                    y = (bb_vertices[4].y + bb_vertices[5].y + bb_vertices[6].y + bb_vertices[7].y)/4
-                    pos_np = np.array([x, y])
-                    pos_list.append([x, y, 3])
-                    
-#                     pos = vehicle.get_location()
-#                     pos_np = np.array([pos.x, pos.y])
-#                     pos_list.append([pos.x, pos.y, 3])
+                    pos = vehicle.get_location()
+                    pos_np = np.array([pos.x, pos.y])
+                    pos_list.append([pos.x, pos.y, 3])
                     
                     ori = np.array([ox, oy]).dot(target - pos_np)
                     diff = rot.dot(target - pos_np)
@@ -361,12 +352,14 @@ def main():
                     v = np.array([1.0, 0.0, 0.0])
                     theta = np.arccos(np.dot(u, v) / np.linalg.norm(u))
                     theta = theta if np.cross(u, v)[2] < 0 else -theta
-                    #if ori > 0:
-                    steer = turn_control.step(theta)
+                    if ori > 0:
+                        steer = turn_control.step(theta)
 
                     # throttle
-                    v = np.linalg.norm(results[vidx, k, t+1] - results[vidx, k, t])
-                    target_speed = v * 5
+                    pdb.set_trace()
+                    average_through = int(pred_delta * 10)
+                    v = np.average(np.linalg.norm(results[vidx, k, 1:1+average_through] - results[vidx, k, :average_through], axis=1))
+                    target_speed = v * 10
 
                     throttle = speed_control.step(target_speed - speed)
 
@@ -378,16 +371,20 @@ def main():
                         control.throttle = 0.0
                     control.manual_gear_shift = False
 
-                    batch = [carla.command.SetAutopilot(vehicle_id, False),
-                             carla.command.ApplyVehicleControl(vehicle_id, control)]
+#                     batch = [carla.command.SetAutopilot(vehicle_id, False),
+#                              carla.command.ApplyVehicleControl(vehicle_id, control)]
+                    batch = [carla.command.ApplyVehicleControl(vehicle_id, control)]
+#                     pdb.set_trace()
                     
                     command_batch = command_batch + batch
-#             pdb.set_trace()
-            results_ = client.apply_batch_sync(command_batch, True)
+                    
+            
+            results_ = client.apply_batch_sync(command_batch, False)
             if use_painter:
-                painter.draw_points(pos_list, '#FFFFFF')
-                painter.draw_points(target_list)
-        
-
+                painter.draw_texts(['p' for _ in range(len(pos_list))] + ['t' for _ in range(len(target_list))],
+                                   pos_list+target_list,
+                                   size=10)
+#             pdb.set_trace()
+                
 if __name__ == "__main__":
     main()
