@@ -5,7 +5,7 @@ import copy
 from scipy import sparse
 import pdb
 import sys
-sys.path.append('/home/jongwon/Desktop/CARLA_benchmark_project/LaneGCN/')
+sys.path.append('/home/jongwon/Desktop/realistic_vehicles/lanegcn/')
 
 from utils import Logger, load_pretrain, gpu
 from cargoverse_data import ArgoDataset, ArgoTestDataset, from_numpy, ref_copy

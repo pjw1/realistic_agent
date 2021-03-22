@@ -137,7 +137,9 @@ class Net(nn.Module):
         # construct map features
         graph = graph_gather(to_long(gpu(data["graph"])))
         nodes, node_idcs, node_ctrs = self.map_net(graph)
-
+        
+#         pdb.set_trace()
+        
         # actor-map fusion cycle 
         nodes = self.a2m(nodes, graph, actors, actor_idcs, actor_ctrs)
         nodes = self.m2m(nodes, graph)
