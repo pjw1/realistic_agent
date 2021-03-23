@@ -14,6 +14,20 @@ import argparse
 
 import pdb
 
+parser = argparse.ArgumentParser(description="Carla Realistic Vehicles Simulation")
+parser.add_argument("--map", default="Town03", type=str, help="map name")
+parser.add_argument("--num-vehicles", default=200, type=int, help="number of vehicles")
+parser.add_argument("--start-tick", default=50, type=int, help="start point tick")
+parser.add_argument("--delta-sec", default=0.1, type=float, help="inverse of fps")
+parser.add_argument("--pred-delta", default=1.5, type=float, help="prediction interval")
+parser.add_argument("--ctrl-delta", default=0.1, type=float, help="control interval")
+parser.add_argument("--delta_sec", default=0.1, type=float, help="inverse of fps")
+parser.add_argument("--near-threshold", default=50., type=float, help="interest radius from ego vehicle")
+parser.add_argument("--use-pred", action="store_true", default=True)
+parser.add_argument("--use-prune", action="store_true", default=True)
+parser.add_argument("--use-pid", action="store_true", default=True)
+parser.add_argument("--use-painter", action="store_true", default=False)
+
 def do_something(data):
     pass
 
@@ -252,19 +266,7 @@ def draw_preds(painter, results, show_k = -1):
     painter.draw_points(xyz)
 
 def main():
-    parser = argparse.ArgumentParser(description="Carla Realistic Vehicles Simulation")
-    parser.add_argument("--map", default="Town03", type=str, help="map name")
-    parser.add_argument("--num-vehicles", default=200, type=int, help="number of vehicles")
-    parser.add_argument("--start-tick", default=50, type=int, help="start point tick")
-    parser.add_argument("--delta-sec", default=0.1, type=float, help="inverse of fps")
-    parser.add_argument("--pred-delta", default=1.5, type=float, help="prediction interval")
-    parser.add_argument("--ctrl-delta", default=0.1, type=float, help="control interval")
-    parser.add_argument("--delta_sec", default=0.1, type=float, help="inverse of fps")
-    parser.add_argument("--near-threshold", default=50., type=float, help="interest radius from ego vehicle")
-    parser.add_argument("--use-pred", action="store_true", default=True)
-    parser.add_argument("--use-prune", action="store_true", default=True)
-    parser.add_argument("--use-pid", action="store_true", default=True)
-    parser.add_argument("--use-painter", action="store_true", default=False)
+
     
     args = parser.parse_args()
     
@@ -343,7 +345,7 @@ def main():
             for key in traj_dict_keys:
                 input_dict[key] = traj_dict[key][input_first_idx:]
             
-            preprocessed_data, vids=get_preprocessed_data(map_name,input_dict,cam,curr_id)
+            preprocessed_data, vids=get_preprocessed_data(map_name,input_dict,cam,curr_id, painter)
             input_data = collate_fn([preprocessed_data])
             curr_id = curr_id + 1
             
