@@ -1,0 +1,6 @@
+carla
+websocket
+websocket-client
+numpy
+torch
+
