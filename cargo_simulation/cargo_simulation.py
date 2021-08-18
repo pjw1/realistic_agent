@@ -32,8 +32,9 @@ def do_something(data):
     pass
 
 def init_setting(num_vehicles, delta_sec, map_name = 'Town03'):
+    
     client = carla.Client('localhost', 2000)
-    client.set_timeout(1000.0)
+    client.set_timeout(10.0)
     
     world = client.load_world(map_name)
     
@@ -267,7 +268,6 @@ def draw_preds(painter, results, show_k = -1):
 
 def main():
 
-    
     args = parser.parse_args()
     
     map_name = args.map

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from shapely.geometry import LineString
 
-from argoverse.data_loading.cargoverse_vector_map_loader import load_lane_segments_from_xml
+from cargoverse.data_loading.cargoverse_vector_map_loader import load_lane_segments_from_xml
 from argoverse.utils.centerline_utils import (
     centerline_to_polygon,
     filter_candidate_centerlines,

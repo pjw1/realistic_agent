@@ -3,4 +3,9 @@ websocket
 websocket-client
 numpy
 torch
+pandas
+scipy
+opencv-python
+shapely
+scikit-image
 

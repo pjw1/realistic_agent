@@ -8,8 +8,8 @@ from torch.utils.data import Dataset
 from scipy import sparse
 import os
 import copy
-from argoverse.data_loading.argoverse_forecasting_loader import ArgoverseForecastingLoader
-from argoverse.map_representation.cargoversemap_api import CargoverseMap
+from cargoverse.data_loading.argoverse_forecasting_loader import ArgoverseForecastingLoader
+from cargoverse.map_representation.cargoversemap_api import CargoverseMap
 from skimage.transform import rotate
 import pdb
 
