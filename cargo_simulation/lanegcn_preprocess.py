@@ -167,7 +167,7 @@ def preprocess(graph, cross_dist, cross_angle=None, data=None):
     out['right'] = right
     return out
 
-def get_preprocessed_data(map_name, loc_dict, cam, curr_id, painter):
+def get_preprocessed_data(map_name, loc_dict, cam, curr_id):
     # 1. ArgoData.read_argo_data
     city = map_name[0]+map_name[-2:]
     df = pd.DataFrame.from_dict(loc_dict)

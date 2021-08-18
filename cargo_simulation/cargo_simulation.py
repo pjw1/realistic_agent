@@ -345,7 +345,7 @@ def main():
             for key in traj_dict_keys:
                 input_dict[key] = traj_dict[key][input_first_idx:]
             
-            preprocessed_data, vids=get_preprocessed_data(map_name,input_dict,cam,curr_id, painter)
+            preprocessed_data, vids=get_preprocessed_data(map_name,input_dict,cam,curr_id)
             input_data = collate_fn([preprocessed_data])
             curr_id = curr_id + 1
             
